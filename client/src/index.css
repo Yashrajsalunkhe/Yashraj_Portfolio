@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --primary: 261 64% 58%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 250 84% 54%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 173 80% 40%;
+  --accent-foreground: 210 40% 98%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --ring: 261 64% 58%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 261 64% 58%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 250 84% 54%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 173 80% 40%;
+  --accent-foreground: 210 40% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 261 64% 58%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom styles */
+.glass {
+  @apply bg-black/30 backdrop-blur-md border border-white/10 shadow-lg;
+}
+
+.glass-card {
+  @apply bg-black/30 backdrop-blur-sm border border-white/10 shadow-lg transition-all duration-300;
+}
+
+.glass-card:hover {
+  @apply bg-black/40 transform -translate-y-1 shadow-xl;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+}
+
+.animated-border {
+  @apply relative;
+}
+
+.animated-border::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary via-secondary to-accent scale-x-0 transform-gpu origin-right transition-transform duration-300;
+}
+
+.animated-border:hover::after {
+  @apply scale-x-100 origin-left;
+}
+
+.bg-pattern {
+  background-image: 
+    radial-gradient(rgba(79, 70, 229, 0.1) 2px, transparent 2px),
+    radial-gradient(rgba(124, 58, 237, 0.1) 2px, transparent 2px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.typing-text {
+  @apply overflow-hidden whitespace-nowrap border-r-4 border-secondary;
+  animation: typing 3.5s steps(30, end) infinite alternate, 
+             blink .75s step-end infinite;
+  width: fit-content;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: hsl(var(--secondary)); }
+}
+
+.particle {
+  @apply absolute rounded-full;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Timeline styling */
+.timeline-container {
+  @apply relative;
+}
+
+.timeline-container::after {
+  content: '';
+  @apply absolute w-0.5 bg-secondary/50 top-0 bottom-0 left-1/2 -ml-px;
+}
+
+.timeline-item {
+  @apply relative w-1/2;
+}
+
+.timeline-item::after {
+  content: '';
+  @apply absolute w-4 h-4 right-[-8px] top-[15px] bg-secondary rounded-full z-10;
+}
+
+.timeline-left {
+  @apply left-0 pr-10;
+}
+
+.timeline-right {
+  @apply left-1/2 pl-10;
+}
+
+.timeline-right::after {
+  @apply left-[-8px];
+}
+
+@media (max-width: 768px) {
+  .timeline-container::after {
+    @apply left-5;
+  }
+  
+  .timeline-item {
+    @apply w-full pl-[50px] pr-0;
+  }
+  
+  .timeline-item::after {
+    @apply left-3 top-[15px];
+  }
+  
+  .timeline-left,
+  .timeline-right {
+    @apply left-0;
+  }
+}
