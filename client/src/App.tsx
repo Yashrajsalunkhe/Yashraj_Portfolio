@@ -12,6 +12,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import ProjectModal from "@/components/ProjectModal";
+import Resume from "./pages/Resume";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -53,6 +54,9 @@ function App() {
             <Achievements />
             <Contact />
           </main>
+        </Route>
+        <Route path="/resume">
+          <Resume />
         </Route>
       </Switch>
       

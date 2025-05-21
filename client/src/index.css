@@ -96,9 +96,9 @@
 }
 
 .typing-text {
-  @apply overflow-hidden whitespace-nowrap border-r-4 border-secondary;
+  @apply overflow-hidden whitespace-nowrap border-r-2 border-secondary;
   animation: typing 3.5s steps(30, end) infinite alternate, 
-             blink .75s step-end infinite;
+             blink 0.75s step-end infinite;
   width: fit-content;
 }
 

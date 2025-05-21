@@ -3,20 +3,29 @@ import { motion } from "framer-motion";
 import ParticleBackground from "./ui/particle-background";
 
 const Hero = () => {
-  const [jobTitle, setJobTitle] = useState("AI Engineer");
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
   const jobTitles = ["AI Engineer", "Full-Stack Developer", "Innovator"];
   const [titleIndex, setTitleIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setJobTitle("");
-      setTimeout(() => {
-        setTitleIndex((prev) => (prev + 1) % jobTitles.length);
-        setJobTitle(jobTitles[(titleIndex + 1) % jobTitles.length]);
-      }, 500);
-    }, 3000);
+    let charIndex = 0;
+    const typeInterval = setInterval(() => {
+      if (charIndex < jobTitles[titleIndex].length) {
+        setDisplayedText((prev) => prev + jobTitles[titleIndex][charIndex]);
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        setIsTyping(false);
+        setTimeout(() => {
+          setIsTyping(true);
+          setDisplayedText("");
+          setTitleIndex((prev) => (prev + 1) % jobTitles.length);
+        }, 2000);
+      }
+    }, 100);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(typeInterval);
   }, [titleIndex]);
 
   return (
@@ -56,8 +65,9 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.8 }}
             >
-              <div className="typing-text">
-                <span className="text-white font-light">{jobTitle}</span>
+              <div>
+                <span className="text-white font-light">{displayedText}</span>
+                {isTyping && <span className="blinking-cursor">|</span>}
               </div>
             </motion.div>
             
@@ -78,10 +88,14 @@ const Hero = () => {
               transition={{ delay: 1.1, duration: 0.8 }}
             >
               <a 
-                href="/resume.pdf" 
+                href="/resume" 
                 className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-full hover:opacity-90 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = "/resume";
+                }}
               >
                 View Resume
               </a>
@@ -154,7 +168,11 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/50 to-secondary/50 rounded-full blur-2xl opacity-30"></div>
               <div className="glass-card rounded-full w-full h-full flex items-center justify-center overflow-hidden relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-20"></div>
-                <div className="text-8xl font-bold text-gradient">YS</div>
+                <img 
+                  src="/src/img/yashraj.jpeg" 
+                  alt="Yashraj" 
+                  className="rounded-full w-full h-full object-cover"
+                />
               </div>
             </div>
           </motion.div>

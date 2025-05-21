@@ -60,12 +60,17 @@ const Navbar = () => {
                 className="text-white hover:text-primary transition-colors duration-300 relative animated-border"
                 onClick={(e) => {
                   e.preventDefault();
-                  const element = document.querySelector(item.href);
-                  if (element) {
-                    window.scrollTo({
-                      top: element.getBoundingClientRect().top + window.scrollY - 80,
-                      behavior: "smooth",
-                    });
+                  if (window.location.pathname !== "/") {
+                    window.location.href = "/" + item.href;
+                  } else {
+                    const element = document.querySelector(item.href);
+                    if (element) {
+                      const offsetTop = element.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({
+                        top: offsetTop - 80, // Adjust for fixed header height
+                        behavior: "smooth",
+                      });
+                    }
                   }
                 }}
               >
@@ -76,10 +81,12 @@ const Navbar = () => {
 
           {/* Resume Button */}
           <a
-            href="/resume.pdf"
+            href="/resume"
             className="hidden md:block bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-full hover:opacity-90 transition-opacity duration-300 shadow-lg"
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/resume";
+            }}
           >
             Resume
           </a>
@@ -124,10 +131,12 @@ const Navbar = () => {
                 </a>
               ))}
               <a
-                href="/resume.pdf"
+                href="/resume"
                 className="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-full hover:opacity-90 transition-opacity duration-300 shadow-lg text-center"
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = "/resume";
+                }}
               >
                 Resume
               </a>
