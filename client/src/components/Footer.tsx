@@ -1,21 +1,34 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const year = new Date().getFullYear();
 
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000); // Simulate loading for 1 second
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <footer className="bg-dark-surface py-10">
+    <footer className={`bg-dark-surface py-10 ${isLoading ? 'blur-sm opacity-50' : ''}`}>
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <motion.div 
             className="mb-6 md:mb-0"
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 20 : 0 }}
             transition={{ duration: 0.8 }}
           >
             <div className="text-2xl font-bold text-white">
-              <span className="text-primary">Y</span><span className="text-secondary">S</span>
+              <motion.img 
+                src="/src/img/generated-icon.png" 
+                alt="Logo" 
+                className="h-8 w-8 object-cover inline-block"
+                initial={{ scale: 0 }}
+                animate={{ scale: isLoading ? 0 : 1 }}
+                transition={{ duration: 0.8 }}
+              />
               <span className="ml-2">Yashraj Salunkhe</span>
             </div>
             <p className="text-gray-400 mt-2">Full-Stack Developer & AI Engineer</p>
@@ -24,8 +37,7 @@ const Footer = () => {
           <motion.div 
             className="flex space-x-6"
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 20 : 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <a 
@@ -66,8 +78,7 @@ const Footer = () => {
         <motion.div 
           className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: isLoading ? 0 : 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <p className="text-gray-400 text-sm mb-4 md:mb-0">© {year} Yashraj Salunkhe. All rights reserved.</p>

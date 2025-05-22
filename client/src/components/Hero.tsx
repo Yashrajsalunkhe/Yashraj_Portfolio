@@ -1,37 +1,13 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ParticleBackground from "./ui/particle-background";
 
 const Hero = () => {
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
   const jobTitles = ["AI Engineer", "Full-Stack Developer", "Innovator"];
-  const [titleIndex, setTitleIndex] = useState(0);
-
-  useEffect(() => {
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex < jobTitles[titleIndex].length) {
-        setDisplayedText((prev) => prev + jobTitles[titleIndex][charIndex]);
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        setIsTyping(false);
-        setTimeout(() => {
-          setIsTyping(true);
-          setDisplayedText("");
-          setTitleIndex((prev) => (prev + 1) % jobTitles.length);
-        }, 2000);
-      }
-    }, 100);
-
-    return () => clearInterval(typeInterval);
-  }, [titleIndex]);
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 bg-pattern relative overflow-hidden">
       <ParticleBackground />
-      
+
       <div className="container mx-auto px-4 pt-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center">
           <motion.div 
@@ -48,7 +24,7 @@ const Hero = () => {
             >
               HELLO THERE, I'M
             </motion.p>
-            
+
             <motion.h1 
               className="text-4xl md:text-6xl font-extrabold mb-4"
               initial={{ opacity: 0 }}
@@ -58,7 +34,7 @@ const Hero = () => {
               <span className="block">Yashraj</span>
               <span className="text-gradient">Salunkhe</span>
             </motion.h1>
-            
+
             <motion.div 
               className="h-8 md:h-12 mb-6 text-xl md:text-2xl font-light"
               initial={{ opacity: 0 }}
@@ -66,11 +42,12 @@ const Hero = () => {
               transition={{ delay: 0.7, duration: 0.8 }}
             >
               <div>
-                <span className="text-white font-light">{displayedText}</span>
-                {isTyping && <span className="blinking-cursor">|</span>}
+                <span className="text-white font-light">
+                  {jobTitles.join(" | ")}
+                </span>
               </div>
             </motion.div>
-            
+
             <motion.p 
               className="text-gray-300 mb-8 max-w-lg mx-auto md:mx-0"
               initial={{ opacity: 0 }}
@@ -80,7 +57,7 @@ const Hero = () => {
               Building innovative solutions at the intersection of AI and web development. 
               Transforming ideas into impactful tech products.
             </motion.p>
-            
+
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
               initial={{ opacity: 0, y: 20 }}
@@ -116,7 +93,7 @@ const Hero = () => {
                 Explore Projects
               </a>
             </motion.div>
-            
+
             <motion.div 
               className="mt-12 flex justify-center md:justify-start space-x-6"
               initial={{ opacity: 0 }}
@@ -157,7 +134,7 @@ const Hero = () => {
               </a>
             </motion.div>
           </motion.div>
-          
+
           <motion.div 
             className="md:w-1/2 mt-10 md:mt-0 flex justify-center"
             initial={{ opacity: 0, x: 50 }}
@@ -167,7 +144,7 @@ const Hero = () => {
             <div className="relative w-80 h-80 md:w-96 md:h-96 animate-float">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/50 to-secondary/50 rounded-full blur-2xl opacity-30"></div>
               <div className="glass-card rounded-full w-full h-full flex items-center justify-center overflow-hidden relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-20"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-0"></div>
                 <img 
                   src="/src/img/yashraj.jpeg" 
                   alt="Yashraj" 

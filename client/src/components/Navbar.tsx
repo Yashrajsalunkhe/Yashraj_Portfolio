@@ -47,8 +47,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link href="#home" className="text-xl font-bold text-white">
-            <span className="text-primary">Y</span>
-            <span className="text-secondary">S</span>
+            <img 
+              src="/src/img/generated-icon.png" 
+              alt="Logo" 
+              className="h-8 w-8 object-cover"
+            />
           </Link>
 
           {/* Desktop Navigation */}

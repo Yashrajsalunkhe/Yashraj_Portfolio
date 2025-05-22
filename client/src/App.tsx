@@ -37,37 +37,42 @@ function App() {
     setShowModal(false);
   };
 
+  const handleLoadingFinish = () => {
+    setLoading(false);
+  };
+
   return (
-    <div className="dark bg-dark">
-      {loading && <LoadingScreen />}
-      
-      <Navbar />
-      
-      <Switch>
-        <Route path="/">
-          <main>
-            <Hero />
-            <About />
-            <Projects onProjectClick={handleProjectClick} />
-            <Skills />
-            <Certifications />
-            <Achievements />
-            <Contact />
-          </main>
-        </Route>
-        <Route path="/resume">
-          <Resume />
-        </Route>
-      </Switch>
-      
-      <Footer />
-      <BackToTop />
-      <ProjectModal 
-        projectId={selectedProject} 
-        isOpen={showModal} 
-        onClose={closeModal} 
-      />
-    </div>
+    <>
+      {loading && <LoadingScreen onFinish={handleLoadingFinish} />}
+      <div className={loading ? "hidden" : "dark bg-dark"}>
+        <Navbar />
+        
+        <Switch>
+          <Route path="/">
+            <main>
+              <Hero />
+              <About />
+              <Projects onProjectClick={handleProjectClick} />
+              <Skills />
+              <Certifications />
+              <Achievements />
+              <Contact />
+            </main>
+          </Route>
+          <Route path="/resume">
+            <Resume />
+          </Route>
+        </Switch>
+        
+        <Footer />
+        <BackToTop />
+        <ProjectModal 
+          projectId={selectedProject} 
+          isOpen={showModal} 
+          onClose={closeModal} 
+        />
+      </div>
+    </>
   );
 }
 
