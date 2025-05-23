@@ -3,7 +3,7 @@ import { achievements } from "@/data/achievements";
 
 const Achievements = () => {
   const stats = [
-    { number: "3+", title: "Years of Experience", subtitle: "Building innovative solutions" },
+    { number: "2+", title: "Years of Experience", subtitle: "Building innovative solutions" },
     { number: "10+", title: "Projects Completed", subtitle: "Across various domains" },
     { number: "5+", title: "Certifications", subtitle: "In emerging technologies" }
   ];

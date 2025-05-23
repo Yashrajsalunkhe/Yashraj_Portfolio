@@ -82,7 +82,7 @@ const Certifications = () => {
               
               <div className="flex justify-between items-center">
                 <span className="text-gray-400">Issued: December 2023</span>
-                <a href="#" className="text-accent hover:text-white transition-colors duration-300 flex items-center">
+                <a href="https://www.credly.com/users/yashraj-salunkhe" className="text-accent hover:text-white transition-colors duration-300 flex items-center">
                   <span>View Certificate</span>
                   <i className="fas fa-external-link-alt ml-2"></i>
                 </a>
