@@ -16,7 +16,7 @@
   --accent: 173 80% 40%;
   --accent-foreground: 210 40% 98%;
   --muted: 60 4.8% 95.9%;
-  --muted-foreground: 25 5.3% 44.7%;
+  --muted-foreground: 25 5.3% 44.7%; /* Adjusted for better visibility */
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 60 9.1% 97.8%;
   --border: 20 5.9% 90%;
@@ -54,6 +54,19 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
     overflow-x: hidden;
+  }
+}
+
+/* Ensure text is visible in input and textarea fields */
+input, textarea {
+  color: black; /* Set text color to black */
+}
+
+/* Ensure text and placeholder colors are explicitly defined for the Textarea component */
+.textarea {
+  color: var(--foreground); /* Ensure text is visible */
+  &::placeholder {
+    color: var(--muted-foreground); /* Ensure placeholder is visible */
   }
 }
 

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 type FormData = {
@@ -52,13 +51,27 @@ const Contact = () => {
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     try {
-      await apiRequest("POST", "/api/contact", data);
-      toast({
-        title: "Message sent successfully!",
-        description: "Thanks for contacting me. I'll get back to you soon.",
-        variant: "default",
+      const response = await fetch("https://formspree.io/f/mgvkbpda", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          message: data.message,
+        }),
       });
-      reset();
+
+      if (response.ok) {
+        toast({
+          title: "Message sent successfully!",
+          description: "Thanks for contacting me. I'll get back to you soon.",
+          variant: "default",
+        });
+        reset();
+      } else {
+        throw new Error("Failed to send message");
+      }
     } catch (error) {
       toast({
         title: "Failed to send message",
@@ -98,12 +111,12 @@ const Contact = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="mb-6">
-                <label htmlFor="name" className="block text-white mb-2">Your Name</label>
+                <label htmlblackFor="name" className="block text-white mb-2">Your Name</label>
                 <input 
                   type="text" 
                   id="name" 
-                  className="w-full bg-dark-lighter text-white rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
-                  placeholder="John Doe" 
+                  className="w-full bg-dark-lighter text-black rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
+                  placeholder="Your Name" 
                   {...register("name", { required: "Name is required" })}
                 />
                 {errors.name && (
@@ -116,8 +129,8 @@ const Contact = () => {
                 <input 
                   type="email" 
                   id="email" 
-                  className="w-full bg-dark-lighter text-white rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
-                  placeholder="john@example.com" 
+                  className="w-full bg-dark-lighter text-black rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
+                  placeholder="Your Email" 
                   {...register("email", { 
                     required: "Email is required",
                     pattern: {
@@ -136,7 +149,7 @@ const Contact = () => {
                 <textarea 
                   id="message" 
                   rows={5} 
-                  className="w-full bg-dark-lighter text-white rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
+                  className="w-full bg-dark-lighter text-black rounded-lg p-3 border border-gray-700 focus:border-primary focus:ring focus:ring-primary/30 focus:outline-none transition-all duration-300" 
                   placeholder="Your message here..." 
                   {...register("message", { required: "Message is required" })}
                 ></textarea>
