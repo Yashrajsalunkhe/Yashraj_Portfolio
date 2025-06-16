@@ -111,7 +111,7 @@ const Contact = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="mb-6">
-                <label htmlblackFor="name" className="block text-white mb-2">Your Name</label>
+                <label htmlFor="name" className="block text-white mb-2">Your Name</label>
                 <input 
                   type="text" 
                   id="name" 
