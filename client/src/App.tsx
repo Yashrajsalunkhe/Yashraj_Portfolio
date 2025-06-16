@@ -8,7 +8,6 @@ import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import Certifications from "@/components/Certifications";
 import Achievements from "@/components/Achievements";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import ProjectModal from "@/components/ProjectModal";
@@ -56,7 +55,6 @@ function App() {
               <Skills />
               <Certifications />
               <Achievements />
-              <Contact />
             </main>
           </Route>
           <Route path="/resume">
