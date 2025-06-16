@@ -1,4 +1,7 @@
 node_modules
-client/dist
+# Only ignore dist at the root, not inside client/
+/dist
 .DS_Store
+server/public
+vite.config.ts.*
 *.tar.gz
