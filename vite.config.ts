@@ -25,7 +25,7 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "client", "dist"), // Output to client/dist for Vercel
+    outDir: "dist", // Output to client/dist for Vercel
     emptyOutDir: true,
   },
 });
