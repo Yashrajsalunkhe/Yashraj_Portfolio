@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { projects } from "../data/projects";
+import Tilt from 'react-parallax-tilt';
 
 interface ProjectsProps {
   onProjectClick: (id: number) => void;
@@ -23,48 +24,58 @@ const Projects = ({ onProjectClick }: ProjectsProps) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <motion.div 
+            <Tilt
               key={project.id}
-              className="glass-card rounded-xl overflow-hidden h-full flex flex-col"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
+              glareEnable={true}
+              glareMaxOpacity={0.15}
+              scale={1.04}
+              tiltMaxAngleX={15}
+              tiltMaxAngleY={15}
+              transitionSpeed={1200}
+              className="h-full"
             >
-              <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110" 
-                />
-                <div className="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
-                  {project.category}
-                </div>
-              </div>
-              
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="bg-dark-lighter text-xs font-medium px-2.5 py-1 rounded">
-                      {tech}
-                    </span>
-                  ))}
+              <motion.div 
+                className="glass-card rounded-xl overflow-hidden h-full flex flex-col"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+              >
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110" 
+                  />
+                  <div className="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
+                    {project.category}
+                  </div>
                 </div>
                 
-                <div className="mt-auto">
-                  <button 
-                    className="text-accent hover:text-white transition-colors duration-300 flex items-center"
-                    onClick={() => onProjectClick(project.id)}
-                  >
-                    <span>View Details</span>
-                    <i className="fas fa-arrow-right ml-2"></i>
-                  </button>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                  <p className="text-gray-300 mb-4">{project.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech, techIndex) => (
+                      <span key={techIndex} className="bg-dark-lighter text-xs font-medium px-2.5 py-1 rounded">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-auto">
+                    <button 
+                      className="text-accent hover:text-white transition-colors duration-300 flex items-center"
+                      onClick={() => onProjectClick(project.id)}
+                    >
+                      <span>View Details</span>
+                      <i className="fas fa-arrow-right ml-2"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Tilt>
           ))}
         </div>
       </div>
