@@ -1,84 +1,98 @@
-# Yashraj-Portfolio
+<p align="center">
+  <img src="src/img/generated-icon.png" alt="Yashraj Portfolio Logo" width="120" />
+</p>
 
-Yashraj-Portfolio is a modern portfolio web application built with TypeScript, React, and Tailwind CSS. It is designed to showcase projects, skills, achievements, and more in an elegant and interactive way.
+<h1 align="center">✨ Yashraj Portfolio ✨</h1>
 
-## Features
+<p align="center">
+  <b>Modern, beautiful, and blazing fast portfolio built with React, Vite, and Tailwind CSS.</b><br/>
+  <i>Showcase your projects, skills, and achievements in style.</i>
+</p>
 
-- **Responsive Design**: Fully responsive and optimized for all devices.
-- **Dynamic Components**: Includes reusable UI components like buttons, cards, modals, and more.
-- **Theming**: Supports light and dark themes.
-- **Interactive Animations**: Smooth animations and transitions for a better user experience.
-- **Data-Driven**: Dynamically renders content from structured data files.
+---
 
-## Project Structure
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#project-structure">Project Structure</a> •
+  <a href="#deployment">Deployment</a> •
+  <a href="#screenshots">Screenshots</a> •
+  <a href="#license">License</a>
+</p>
 
-The project is organized as follows:
+---
 
-```
+## 🚀 Features
+
+- 🌙 **Dark & Light Theme** — Switch seamlessly between beautiful themes.
+- 📱 **Responsive Design** — Looks stunning on all devices.
+- ⚡ **Super Fast** — Powered by Vite for instant reloads.
+- 🧩 **Reusable Components** — Modular, customizable UI.
+- 🎨 **Tailwind CSS** — Effortless styling and utility classes.
+- 🗂️ **Data-Driven** — Projects, skills, and achievements from TypeScript data files.
+- 🖼️ **Static Assets** — Easy image management in `public/img/`.
+
+---
+
+## 🗂️ Project Structure
+
+```text
 Yashraj-Portfolio/
-├── client/                # Frontend code
-│   ├── src/
-│   │   ├── components/   # Reusable React components
-│   │   ├── data/         # Static data files
-│   │   ├── hooks/        # Custom React hooks
-│   │   ├── img/          # Images and assets
-│   │   ├── lib/          # Utility functions and libraries
-│   │   ├── pages/        # Page components
-├── shared/                # Shared resources like schemas
-├── package.json           # Project dependencies and scripts
-├── tailwind.config.ts     # Tailwind CSS configuration
-├── tsconfig.json          # TypeScript configuration
-├── vite.config.ts         # Vite configuration
+├── src/
+│   ├── components/       # All React UI and page components
+│   │   └── ui/           # UI primitives and reusable elements
+│   ├── data/             # TypeScript data files (projects, skills, etc.)
+│   ├── hooks/            # Custom React hooks
+│   ├── img/              # (Legacy) Images before moving to public/img/
+│   ├── lib/              # Utility functions and libraries
+│   ├── pages/            # Page-level components (e.g., Resume)
+│   ├── index.css         # Global styles
+│   └── main.tsx          # App entry point
+├── package.json          # Project scripts & dependencies
+├── tailwind.config.ts    # Tailwind CSS config
+├── tsconfig.json         # TypeScript config
+├── vite.config.ts        # Vite config
+├── README.md             # Project documentation
+└── ...                   # Other config and meta files
 ```
 
-## Getting Started
+---
 
-### Prerequisites
+## 🖼️ Screenshots
 
-- Node.js 20+
-- npm or yarn
+<p align="center">
+  <img src="scr/img/placeholder.jpg" alt="Portfolio Screenshot" width="600"/>
+</p>
 
-### Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd Yashraj-Portfolio
-   ```
+## 🌐 Deployment
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+Deployed on [Vercel](https://vercel.com/) — blazing fast, globally distributed, and always up to date.
 
-### Development
+---
 
-Start the development server:
+## 📁 Static Assets
 
-```bash
-npm run dev
-```
+- All images and static files are in `public/img/`.
+- Reference them in code as `/img/filename.jpg`.
 
-The application will be available at `http://localhost:5000`.
+---
 
-## Production
+## 🤝 Connect with Me
 
-To build the project for production:
+- [Portfolio Website](https://yashrajsalunkhe.vercel.app/)
+- [GitHub](https://github.com/Yashrajsalunkhe)
+- [LinkedIn](https://www.linkedin.com/in/yashrajsalunkhe/)
+- [Twitter/X](https://twitter.com/yashrajsalunkhe)
 
-```bash
-npm run build
-```
+---
 
-## Contributing
+## 📜 License
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+MIT License © 2025 Yashraj Salunkhe
 
-## License
+---
 
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Acknowledgments
-
-- Built with [React](https://reactjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Powered by [Vite](https://vitejs.dev/)
+<p align="center">
+  <b>Made with ❤️ using React, Vite & Tailwind CSS</b>
+</p>
