@@ -23,6 +23,13 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
+  define: {
+    "process.env": {},
+    global: "window",
+  },
+  optimizeDeps: {
+    include: ["buffer"],
+  },
   root: "./", // Use relative path for Vercel compatibility
   build: {
     outDir: "dist", // Output to client/dist for Vercel

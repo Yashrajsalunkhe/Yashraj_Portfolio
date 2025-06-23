@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Switch } from "wouter";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoadingScreen from "./components/LoadingScreen";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -13,6 +13,8 @@ import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import ProjectModal from "./components/ProjectModal";
 import Resume from "./pages/Resume";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -42,13 +44,12 @@ function App() {
   };
 
   return (
-    <>
+    <BrowserRouter>
       {loading && <LoadingScreen onFinish={handleLoadingFinish} />}
       <div className={loading ? "hidden" : "dark bg-dark"}>
         <Navbar />
-        
-        <Switch>
-          <Route path="/">
+        <Routes>
+          <Route path="/" element={
             <main>
               <Hero />
               <About />
@@ -58,12 +59,11 @@ function App() {
               <Achievements />
               <Contact />
             </main>
-          </Route>
-          <Route path="/resume">
-            <Resume />
-          </Route>
-        </Switch>
-        
+          } />
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+        </Routes>
         <Footer />
         <BackToTop />
         <ProjectModal 
@@ -72,7 +72,7 @@ function App() {
           onClose={closeModal} 
         />
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 

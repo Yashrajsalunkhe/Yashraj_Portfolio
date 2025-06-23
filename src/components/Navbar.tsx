@@ -34,6 +34,7 @@ const Navbar = () => {
     { name: "Skills", href: "#skills" },
     { name: "Certifications", href: "#certifications" },
     { name: "Achievements", href: "#achievements" },
+    { name: "Blog", href: "/blog", isRoute: true },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -57,28 +58,42 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
             {navItems.map((item, index) => (
-              <a
-                key={index}
-                href={item.href}
-                className="text-white hover:text-primary transition-colors duration-300 relative animated-border"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (window.location.pathname !== "/") {
-                    window.location.href = "/" + item.href;
-                  } else {
-                    const element = document.querySelector(item.href);
-                    if (element) {
-                      const offsetTop = element.getBoundingClientRect().top + window.scrollY;
-                      window.scrollTo({
-                        top: offsetTop - 80, // Adjust for fixed header height
-                        behavior: "smooth",
-                      });
+              item.isRoute ? (
+                <a
+                  key={index}
+                  href={item.href}
+                  className="text-white hover:text-primary transition-colors duration-300 relative animated-border"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = item.href;
+                  }}
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <a
+                  key={index}
+                  href={item.href}
+                  className="text-white hover:text-primary transition-colors duration-300 relative animated-border"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (window.location.pathname !== "/") {
+                      window.location.href = "/" + item.href;
+                    } else {
+                      const element = document.querySelector(item.href);
+                      if (element) {
+                        const offsetTop = element.getBoundingClientRect().top + window.scrollY;
+                        window.scrollTo({
+                          top: offsetTop - 80, // Adjust for fixed header height
+                          behavior: "smooth",
+                        });
+                      }
                     }
-                  }
-                }}
-              >
-                {item.name}
-              </a>
+                  }}
+                >
+                  {item.name}
+                </a>
+              )
             ))}
           </div>
 
@@ -114,24 +129,39 @@ const Navbar = () => {
           >
             <div className="flex flex-col space-y-4">
               {navItems.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="text-white hover:text-primary transition-colors duration-300"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    closeMenu();
-                    const element = document.querySelector(item.href);
-                    if (element) {
-                      window.scrollTo({
-                        top: element.getBoundingClientRect().top + window.scrollY - 80,
-                        behavior: "smooth",
-                      });
-                    }
-                  }}
-                >
-                  {item.name}
-                </a>
+                item.isRoute ? (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="text-white hover:text-primary transition-colors duration-300"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      closeMenu();
+                      window.location.href = item.href;
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="text-white hover:text-primary transition-colors duration-300"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      closeMenu();
+                      const element = document.querySelector(item.href);
+                      if (element) {
+                        window.scrollTo({
+                          top: element.getBoundingClientRect().top + window.scrollY - 80,
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                )
               ))}
               <a
                 href="/resume"
