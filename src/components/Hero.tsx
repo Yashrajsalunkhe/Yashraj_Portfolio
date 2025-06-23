@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import ParticleBackground from "./ui/particle-background";
+import { TypeAnimation } from 'react-type-animation';
 
 const Hero = () => {
-  const jobTitles = ["AI Engineer", "Full-Stack Developer", "Innovator"];
-
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 bg-pattern relative overflow-hidden">
       <ParticleBackground />
@@ -43,7 +42,19 @@ const Hero = () => {
             >
               <div>
                 <span className="text-white font-light">
-                  {jobTitles.join(" | ")}
+                  <TypeAnimation
+                    sequence={[
+                      'AI Engineer', 2000,
+                      'Full-Stack Developer', 2000,
+                      'Innovator', 2000,
+                      'Web Developer', 2000,
+                      'Designer', 2000,
+                    ]}
+                    wrapper="span"
+                    speed={50}
+                    repeat={Infinity}
+                    style={{ display: 'inline-block' }}
+                  />
                 </span>
               </div>
             </motion.div>
