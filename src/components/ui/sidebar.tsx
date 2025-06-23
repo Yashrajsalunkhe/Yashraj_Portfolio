@@ -10,7 +10,7 @@ import { Input } from "./input"
 import { Separator } from "./separator"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "./sheet"
 import { Skeleton } from "./skeleton"
-import { TooltipProvider } from "./tooltip"
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "./tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -138,7 +138,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
-            {...props
+            {...props}
           >
             {children}
           </div>
