@@ -23,7 +23,7 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
-  root: "client", // Use relative path for Vercel compatibility
+  root: "./", // Use relative path for Vercel compatibility
   build: {
     outDir: "dist", // Output to client/dist for Vercel
     emptyOutDir: true,

@@ -24,7 +24,6 @@ Yashraj-Portfolio/
 │   │   ├── img/          # Images and assets
 │   │   ├── lib/          # Utility functions and libraries
 │   │   ├── pages/        # Page components
-├── server/                # Backend code
 ├── shared/                # Shared resources like schemas
 ├── package.json           # Project dependencies and scripts
 ├── tailwind.config.ts     # Tailwind CSS configuration
@@ -55,24 +54,19 @@ Yashraj-Portfolio/
 ### Development
 
 Start the development server:
+
 ```bash
 npm run dev
 ```
 
 The application will be available at `http://localhost:5000`.
 
-### Build
+## Production
 
 To build the project for production:
+
 ```bash
 npm run build
-```
-
-### Deployment
-
-The project is configured for autoscale deployment. Use the following command to start the production server:
-```bash
-npm run start
 ```
 
 ## Contributing
