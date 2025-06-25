@@ -22,7 +22,7 @@ const Footer = () => {
           >
             <div className="text-2xl font-bold text-white">
               <motion.img 
-                src="/public/generated-icon.png" 
+                src="/generated-icon.png" 
                 alt="Logo" 
                 className="h-8 w-8 object-cover inline-block"
                 initial={{ scale: 0 }}
