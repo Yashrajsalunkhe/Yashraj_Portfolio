@@ -32,6 +32,8 @@ function getLocalOrStatic(key: string, fallback: any) {
   return fallback;
 }
 
+const VISITOR_KEY = "visitorCount";
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
@@ -64,6 +66,24 @@ function App() {
     };
     window.addEventListener('storage', sync);
     return () => window.removeEventListener('storage', sync);
+  }, []);
+
+  // --- Real-Time Visitor Counting (for all users except admin pages, only once per session) ---
+  useEffect(() => {
+    const isAdminPage = window.location.pathname.startsWith("/admin");
+    // Only increment if not admin and not already counted in this session
+    if (!isAdminPage && !sessionStorage.getItem("visitorCounted")) {
+      let count = Number(localStorage.getItem(VISITOR_KEY) || "0") + 1;
+      localStorage.setItem(VISITOR_KEY, String(count));
+      sessionStorage.setItem("visitorCounted", "true");
+      const handleUnload = () => {
+        let count = Number(localStorage.getItem(VISITOR_KEY) || "1") - 1;
+        localStorage.setItem(VISITOR_KEY, String(Math.max(count, 0)));
+        sessionStorage.removeItem("visitorCounted");
+      };
+      window.addEventListener("beforeunload", handleUnload);
+      return () => window.removeEventListener("beforeunload", handleUnload);
+    }
   }, []);
 
   const handleProjectClick = (id: number) => {

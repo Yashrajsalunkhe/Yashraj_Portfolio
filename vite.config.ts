@@ -34,5 +34,6 @@ export default defineConfig({
   build: {
     outDir: "dist", // Output to client/dist for Vercel
     emptyOutDir: true,
+    chunkSizeWarningLimit: 2000, // Increase limit to 2000kb (default is 500)
   },
 });

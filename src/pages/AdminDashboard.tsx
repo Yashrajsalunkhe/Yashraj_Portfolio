@@ -271,119 +271,123 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-gray-50 via-white to-gray-200 dark:from-[#18181b] dark:via-[#23232a] dark:to-[#18181b]">
-      {/* Sidebar */}
-      <aside className="w-56 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col py-8 px-4 gap-2 fixed left-0 top-0 h-full z-40">
-        <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin</h2>
-        {SECTIONS.map((s) => (
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-gray-200 dark:from-[#18181b] dark:via-[#23232a] dark:to-[#18181b]">
+      {/* Header Navbar */}
+      <Navbar />
+      <div className="flex flex-1">
+        {/* Sidebar */}
+        <aside className="w-56 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col py-8 px-4 gap-2 h-[calc(100vh-64px)] fixed top-16 left-0 z-40">
+          <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin</h2>
+          {SECTIONS.map((s) => (
+            <button
+              key={s.key}
+              className={`text-left px-4 py-2 rounded-lg font-medium transition-colors ${section === s.key ? "bg-primary text-white" : "hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
+              onClick={() => setSection(s.key)}
+            >
+              {s.label}
+            </button>
+          ))}
           <button
-            key={s.key}
-            className={`text-left px-4 py-2 rounded-lg font-medium transition-colors ${section === s.key ? "bg-primary text-white" : "hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
-            onClick={() => setSection(s.key)}
+            className="mt-auto bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-semibold shadow hover:opacity-90 transition"
+            onClick={() => {
+              localStorage.removeItem("admin-auth");
+              window.location.href = "/admin-login";
+            }}
           >
-            {s.label}
+            Logout
           </button>
-        ))}
-        <button
-          className="mt-auto bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-semibold shadow hover:opacity-90 transition"
-          onClick={() => {
-            localStorage.removeItem("admin-auth");
-            window.location.href = "/admin-login";
-          }}
-        >
-          Logout
-        </button>
-      </aside>
-      {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen" style={{ marginLeft: '14rem' }}>
-        <AdminSectionWrapper>
-          {/* Global Preview Modal */}
-          {globalPreviewOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-              <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-primary/20 p-8 max-w-4xl w-full relative max-h-[90vh] overflow-y-auto">
-                <button
-                  className="absolute top-4 right-4 px-4 py-2 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-semibold shadow-lg"
-                  onClick={() => setGlobalPreviewOpen(false)}
-                >Close Preview</button>
-                {renderSectionPreview()}
+        </aside>
+        {/* Main Content */}
+        <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen ml-56 mt-16">
+          <AdminSectionWrapper>
+            {/* Global Preview Modal */}
+            {globalPreviewOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-primary/20 p-8 max-w-4xl w-full relative max-h-[90vh] overflow-y-auto">
+                  <button
+                    className="absolute top-4 right-4 px-4 py-2 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-semibold shadow-lg"
+                    onClick={() => setGlobalPreviewOpen(false)}
+                  >Close Preview</button>
+                  {renderSectionPreview()}
+                </div>
               </div>
-            </div>
-          )}
-          {/* Save Success Popup */}
-          {showSavePopup && (
-            <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
-              <div className="bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg font-semibold flex items-center gap-2 animate-fade-in">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                Changes saved!
+            )}
+            {/* Save Success Popup */}
+            {showSavePopup && (
+              <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
+                <div className="bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg font-semibold flex items-center gap-2 animate-fade-in">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  Changes saved!
+                </div>
               </div>
-            </div>
-          )}
-          {/* Section Content */}
-          {section === "analytics" && (
-            <AdminAnalyticsSection />
-          )}
-          {section === "projects" && (
-            <AdminProjectsSection
-              projectsDraft={projectsDraft}
-              setProjectsDraft={setProjectsDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setProjectsState={setProjectsState}
-              projects={projects}
-            />
-          )}
-          {section === "skills" && (
-            <AdminSkillsSection
-              skillsDraft={skillsDraft}
-              setSkillsDraft={setSkillsDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setSkillsState={setSkillsState}
-              skills={skills}
-            />
-          )}
-          {section === "achievements" && (
-            <AdminAchievementsSection
-              achievementsDraft={achievementsDraft}
-              setAchievementsDraft={setAchievementsDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setAchievementsState={setAchievementsState}
-              achievements={achievements}
-            />
-          )}
-          {section === "about" && (
-            <AdminAboutSection
-              aboutDraft={aboutDraft}
-              setAboutDraft={setAboutDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setAboutState={setAboutState}
-              about={about}
-            />
-          )}
-          {section === "roles" && (
-            <AdminRolesSection
-              rolesDraft={rolesDraft}
-              setRolesDraft={setRolesDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setRolesState={setRolesState}
-              roles={roles}
-            />
-          )}
-          {section === "blog" && (
-            <AdminBlogSection
-              blogDraft={blogDraft}
-              setBlogDraft={setBlogDraft}
-              setGlobalPreviewOpen={setGlobalPreviewOpen}
-              handleSaveWithPopup={handleSaveWithPopup}
-              setBlogState={setBlogState}
-              blog={blog}
-            />
-          )}
-        </AdminSectionWrapper>
-      </main>
+            )}
+            {/* Section Content */}
+            {section === "analytics" && (
+              <AdminAnalyticsSection />
+            )}
+            {section === "projects" && (
+              <AdminProjectsSection
+                projectsDraft={projectsDraft}
+                setProjectsDraft={setProjectsDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setProjectsState={setProjectsState}
+                projects={projects}
+              />
+            )}
+            {section === "skills" && (
+              <AdminSkillsSection
+                skillsDraft={skillsDraft}
+                setSkillsDraft={setSkillsDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setSkillsState={setSkillsState}
+                skills={skills}
+              />
+            )}
+            {section === "achievements" && (
+              <AdminAchievementsSection
+                achievementsDraft={achievementsDraft}
+                setAchievementsDraft={setAchievementsDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setAchievementsState={setAchievementsState}
+                achievements={achievements}
+              />
+            )}
+            {section === "about" && (
+              <AdminAboutSection
+                aboutDraft={aboutDraft}
+                setAboutDraft={setAboutDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setAboutState={setAboutState}
+                about={about}
+              />
+            )}
+            {section === "roles" && (
+              <AdminRolesSection
+                rolesDraft={rolesDraft}
+                setRolesDraft={setRolesDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setRolesState={setRolesState}
+                roles={roles}
+              />
+            )}
+            {section === "blog" && (
+              <AdminBlogSection
+                blogDraft={blogDraft}
+                setBlogDraft={setBlogDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setBlogState={setBlogState}
+                blog={blog}
+              />
+            )}
+          </AdminSectionWrapper>
+        </main>
+      </div>
     </div>
   );
 };
