@@ -22,8 +22,8 @@ const Footer = () => {
           >
             <div className="text-2xl font-bold text-white">
               <motion.img 
-                src="/src/img/generated-icon.png" 
-                alt="generated-icon.pngLogo" 
+                src="/generated-icon.png" 
+                alt="Logo" 
                 className="h-8 w-8 object-cover inline-block"
                 initial={{ scale: 0 }}
                 animate={{ scale: isLoading ? 0 : 1 }}

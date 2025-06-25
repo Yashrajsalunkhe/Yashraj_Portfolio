@@ -162,7 +162,7 @@ const Hero = ({ name = "Yashraj", surname = "Salunkhe", roles = [
               <div className="glass-card rounded-full w-full h-full flex items-center justify-center overflow-hidden relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-full blur opacity-0"></div>
                 <img 
-                  src="/src/img/yashraj.jpeg" 
+                  src="/yashraj.jpeg" 
                   alt="Yashraj" 
                   className="rounded-full w-full h-full object-cover"
                 />
