@@ -18,7 +18,7 @@ const LoadingScreen = ({ onFinish }: { onFinish: () => void }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-md z-50">
       <motion.img
-        src="/src/img/generated-icon.png"
+        src="/generated-icon.png"
         alt="Logo"
         className="h-20 w-20"
         initial={{ opacity: 0, scale: 0.5 }}

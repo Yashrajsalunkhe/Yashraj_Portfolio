@@ -19,7 +19,7 @@ export const projects: Project[] = [
     title: "Smart Doorbell with Face Recognition",
     description: "A security system that uses facial recognition to identify visitors and notify homeowners via a mobile app.",
     longDescription: "This smart doorbell system combines facial recognition with IoT technology to provide enhanced home security. When a visitor approaches, the system captures their image, runs it through a facial recognition algorithm, and if recognized, can automatically notify the homeowner or grant access. For unknown visitors, a notification is sent to the homeowner's mobile app allowing real-time interaction.",
-    image: "img/placeholder.jpg",
+    image: "/public/placeholder.jpg",
     category: "AI / IoT",
     technologies: ["Python", "OpenCV", "Raspberry Pi", "TensorFlow", "React Native"],
     features: [
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: "Gesture-Based Smart Automation System",
     description: "KPIT Sparkle finalist project enabling gesture control for smart appliances and devices.",
     longDescription: "This innovative gesture recognition system allows users to control various smart home devices using simple hand gestures. The project leverages computer vision techniques and machine learning to interpret hand movements and translate them into commands for connected devices. This system is particularly useful for elderly and disabled individuals who may have difficulty using traditional interfaces.",
-    image: "img/placeholder.jpg",
+    image: "/public/placeholder.jpg",
     category: "Computer Vision",
     technologies: ["Python", "MediaPipe", "IoT", "Computer Vision"],
     features: [
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     title: "Object Detection Website (YOLOv5)",
     description: "Web application for real-time object detection using YOLOv5 with a user-friendly interface.",
     longDescription: "This web application provides real-time object detection capabilities using the YOLOv5 model. Users can upload images or use their webcam to detect and identify objects in real-time. The system highlights detected objects with bounding boxes and provides confidence scores for each detection. It's built with a responsive interface that works across different devices.",
-    image: "img/placeholder.jpg",
+    image: "/public/placeholder.jpg",
     category: "Computer Vision",
     technologies: ["Python", "Flask", "YOLOv5", "JavaScript", "WebRTC"],
     features: [
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     title: "GPS Bus Tracking System",
     description: "Real-time bus tracking system with location updates and ETA predictions for passengers.",
     longDescription: "This GPS tracking system provides real-time updates on bus locations, helping passengers plan their commute more efficiently. The system calculates estimated arrival times based on current location, route, and traffic conditions. Passengers can access this information through a mobile app or web interface, receiving notifications as their bus approaches their stop.",
-    image: "img/placeholder.jpg",
+    image: "/public/placeholder.jpg",
     category: "IoT / Web",
     technologies: ["Node.js", "React", "MongoDB", "GPS", "Google Maps API"],
     features: [
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     title: "Smart Home Automation (Google Assistant)",
     description: "Voice-controlled home automation system integrated with Google Assistant for seamless control.",
     longDescription: "This smart home system allows users to control various home appliances and devices using voice commands through Google Assistant. The system connects to different IoT devices throughout the home, enabling voice control of lights, fans, air conditioners, and other appliances. It can also create routines and schedules for automated control based on time or other triggers.",
-    image: "img/placeholder.jpg",
+    image: "/public/placeholder.jpg",
     category: "IoT",
     technologies: ["NodeMCU", "IFTTT", "Google Assistant API", "Arduino"],
     features: [
