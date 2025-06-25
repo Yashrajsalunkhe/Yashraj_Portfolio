@@ -1,8 +1,14 @@
 import { motion } from "framer-motion";
-import { skills } from "../data/skills";
+import { skills as staticSkills, SkillCategory } from "../data/skills";
 import SkillBar from "./ui/skill-bar";
 
-const Skills = () => {
+interface SkillsProps {
+  skills?: SkillCategory;
+}
+
+const Skills = ({ skills: skillsProp }: SkillsProps) => {
+  const skills = skillsProp || staticSkills;
+
   return (
     <section id="skills" className="py-20 bg-dark-surface">
       <div className="container mx-auto px-4">

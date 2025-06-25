@@ -2,7 +2,18 @@ import { motion } from "framer-motion";
 import ParticleBackground from "./ui/particle-background";
 import { TypeAnimation } from 'react-type-animation';
 
-const Hero = () => {
+interface HeroProps {
+  name?: string;
+  surname?: string;
+  roles?: string[];
+}
+
+const Hero = ({ name = "Yashraj", surname = "Salunkhe", roles = [
+  "AI Engineer",
+  "Full-Stack Developer",
+  "Innovator",
+  "Web Developer"
+] }: HeroProps) => {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 bg-pattern relative overflow-hidden">
       <ParticleBackground />
@@ -30,8 +41,8 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
-              <span className="block">Yashraj</span>
-              <span className="text-gradient">Salunkhe</span>
+              <span className="block">{name}</span>
+              <span className="text-gradient">{surname}</span>
             </motion.h1>
 
             <motion.div 
@@ -43,13 +54,7 @@ const Hero = () => {
               <div>
                 <span className="text-white font-light">
                   <TypeAnimation
-                    sequence={[
-                      'AI Engineer', 2000,
-                      'Full-Stack Developer', 2000,
-                      'Innovator', 2000,
-                      'Web Developer', 2000,
-                      'Designer', 2000,
-                    ]}
+                    sequence={roles.flatMap(role => [role, 2000])}
                     wrapper="span"
                     speed={50}
                     repeat={Infinity}

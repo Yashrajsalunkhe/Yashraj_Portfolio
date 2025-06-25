@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { projects } from "../data/projects";
+import { Project, projects as staticProjects } from "../data/projects";
 import Tilt from 'react-parallax-tilt';
 import { useState, useMemo } from "react";
 import { Input } from "./ui/input";
@@ -8,22 +8,34 @@ import Fuse from "../lib/fuse";
 
 interface ProjectsProps {
   onProjectClick: (id: number) => void;
+  projects?: Project[]; // Optional prop for live preview
 }
 
-const Projects = ({ onProjectClick }: ProjectsProps) => {
+const Projects = ({ onProjectClick, projects: projectsProp }: ProjectsProps) => {
   // --- FILTER & SEARCH STATE ---
   const [search, setSearch] = useState("");
   const [activeTech, setActiveTech] = useState<string | null>(null);
 
+  // Use prop if provided, else static data (do not check for length)
+  const projects = Array.isArray(projectsProp)
+    ? projectsProp
+    : staticProjects;
+
   // Get all unique techs for filter buttons
   const allTechs = useMemo(() => {
     const techSet = new Set<string>();
-    projects.forEach((p) => p.technologies.forEach((t) => techSet.add(t)));
+    if (Array.isArray(projects)) {
+      projects.forEach((p) => {
+        if (p && Array.isArray(p.technologies)) {
+          p.technologies.forEach((t) => techSet.add(t));
+        }
+      });
+    }
     return Array.from(techSet).sort();
-  }, []);
+  }, [projects]);
 
   // Fuse.js setup for fuzzy search
-  const fuse = useMemo(() => new Fuse(projects, { keys: ["title"], threshold: 0.4 }), []);
+  const fuse = useMemo(() => new Fuse(projects, { keys: ["title"], threshold: 0.4 }), [projects]);
   const filteredProjects = useMemo(() => {
     let filtered = projects;
     if (activeTech) {
@@ -33,7 +45,7 @@ const Projects = ({ onProjectClick }: ProjectsProps) => {
       filtered = fuse.search(search).map((r) => r.item);
     }
     return filtered;
-  }, [search, activeTech, fuse]);
+  }, [search, activeTech, fuse, projects]);
 
   return (
     <section id="projects" className="py-20 bg-dark bg-pattern">
@@ -52,32 +64,42 @@ const Projects = ({ onProjectClick }: ProjectsProps) => {
         </motion.div>
 
         {/* --- SEARCH BAR & FILTER BUTTONS --- */}
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-10">
-          <Input
-            type="text"
-            placeholder="Search projects by title..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="md:w-1/3 w-full bg-dark-lighter text-black placeholder:text-gray-400"
-          />
-          <div className="flex flex-wrap gap-2 overflow-x-auto">
-            <Button
-              variant={!activeTech ? "secondary" : "outline"}
-              size="sm"
-              onClick={() => setActiveTech(null)}
-            >
-              All
-            </Button>
-            {allTechs.map((tech) => (
+        <div className="mb-10">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-white/90 dark:bg-zinc-900/90 rounded-xl border border-primary/20 shadow-md">
+            <Input
+              type="text"
+              placeholder="Search projects by title..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="md:w-1/3 w-full bg-white dark:bg-zinc-800 border border-primary/30 text-black dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary"
+            />
+            <div className="flex flex-wrap gap-2 overflow-x-auto mt-2 md:mt-0">
               <Button
-                key={tech}
-                variant={activeTech === tech ? "secondary" : "outline"}
+                variant={!activeTech ? "secondary" : "outline"}
                 size="sm"
-                onClick={() => setActiveTech(tech)}
+                className={`rounded-full px-4 py-1 font-semibold border ${!activeTech ? 'bg-primary text-white border-primary' : 'bg-zinc-100 dark:bg-zinc-800 text-primary border-primary/30'}`}
+                onClick={() => setActiveTech(null)}
               >
-                {tech}
+                All
               </Button>
-            ))}
+              {allTechs.length === 0 ? (
+                <Button disabled variant="outline" size="sm" className="rounded-full px-4 py-1 font-semibold border bg-zinc-100 dark:bg-zinc-800 text-zinc-400 border-primary/30 cursor-not-allowed">
+                  No technologies found
+                </Button>
+              ) : (
+                allTechs.map((tech) => (
+                  <Button
+                    key={tech}
+                    variant={activeTech === tech ? "secondary" : "outline"}
+                    size="sm"
+                    className={`rounded-full px-4 py-1 font-semibold border ${activeTech === tech ? 'bg-primary text-white border-primary' : 'bg-zinc-100 dark:bg-zinc-800 text-primary border-primary/30'}`}
+                    onClick={() => setActiveTech(tech)}
+                  >
+                    {tech}
+                  </Button>
+                ))
+              )}
+            </div>
           </div>
         </div>
 
@@ -122,11 +144,15 @@ const Projects = ({ onProjectClick }: ProjectsProps) => {
                   <p className="text-gray-300 mb-4">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span key={techIndex} className="bg-dark-lighter text-xs font-medium px-2.5 py-1 rounded">
-                        {tech}
-                      </span>
-                    ))}
+                    {Array.isArray(project.technologies) && project.technologies.length > 0 ? (
+                      project.technologies.map((tech, techIndex) => (
+                        <span key={techIndex} className="bg-dark-lighter text-xs font-medium px-2.5 py-1 rounded">
+                          {tech}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-zinc-400 text-xs">No technologies listed</span>
+                    )}
                   </div>
                   
                   <div className="mt-auto">

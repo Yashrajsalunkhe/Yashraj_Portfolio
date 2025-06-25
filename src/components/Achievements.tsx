@@ -1,7 +1,13 @@
 import { motion } from "framer-motion";
-import { achievements } from "../data/achievements";
+import { achievements as staticAchievements, Achievement } from "../data/achievements";
 
-const Achievements = () => {
+interface AchievementsProps {
+  achievements?: Achievement[];
+}
+
+const Achievements = ({ achievements: achievementsProp }: AchievementsProps) => {
+  const achievements = achievementsProp || staticAchievements;
+
   const stats = [
     { number: "2+", title: "Years of Experience", subtitle: "Building innovative solutions" },
     { number: "10+", title: "Projects Completed", subtitle: "Across various domains" },

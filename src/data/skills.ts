@@ -31,5 +31,11 @@ export const skills: SkillCategory = {
     { name: "Linux", percentage: 85 },
     { name: "REST APIs", percentage: 90 },
     { name: "Agile", percentage: 80 }
+  ],
+  "Database": [
+    { name: "MySQL", percentage: 85 },
+    { name: "PostgreSQL", percentage: 80 },
+    { name: "MongoDB", percentage: 75 },
+    { name: "SQLite", percentage: 70 }
   ]
 };

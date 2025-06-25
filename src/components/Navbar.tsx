@@ -27,6 +27,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  const isAdmin = typeof window !== 'undefined' && localStorage.getItem('admin-auth') === 'true';
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
@@ -36,7 +37,30 @@ const Navbar = () => {
     { name: "Achievements", href: "#achievements" },
     { name: "Blog", href: "/blog", isRoute: true },
     { name: "Contact", href: "#contact" },
+    { name: "Admin", href: isAdmin ? "/admin" : "/admin-login", isRoute: true }, // Admin dashboard link
   ];
+
+  // Remove admin-auth on leaving admin pages and on reload
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (!window.location.pathname.startsWith('/admin')) {
+        localStorage.removeItem('admin-auth');
+      }
+    };
+    // Remove token on navigation
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('pushstate', handleRouteChange);
+    window.addEventListener('replacestate', handleRouteChange);
+    // Remove token on reload (hard refresh)
+    if (!window.location.pathname.startsWith('/admin')) {
+      localStorage.removeItem('admin-auth');
+    }
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('pushstate', handleRouteChange);
+      window.removeEventListener('replacestate', handleRouteChange);
+    };
+  }, []);
 
   return (
     <motion.nav

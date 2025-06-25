@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
-import { timeline } from "../data/timeline";
+import { timeline as staticTimeline, TimelineItem } from "../data/timeline";
 
-const About = () => {
+interface AboutProps {
+  timeline?: TimelineItem[];
+  aboutMe?: string;
+  imageUrl?: string;
+}
+
+const About = ({ timeline: timelineProp, aboutMe, imageUrl }: AboutProps) => {
+  // Ensure timeline is always an array and fallback to staticTimeline if empty
+  const timeline = Array.isArray(timelineProp) && timelineProp.length > 0 ? timelineProp : staticTimeline;
+
   return (
     <section id="about" className="py-20 bg-dark-surface">
       <div className="container mx-auto px-4">
@@ -26,7 +35,7 @@ const About = () => {
           >
             <div className="glass-card rounded-2xl p-1 shadow-xl">
               <img 
-                src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=1000" 
+                src={imageUrl || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=1000"} 
                 alt="Tech workspace with computers and AI visualizations" 
                 className="rounded-2xl w-full h-auto" 
               />
@@ -42,7 +51,7 @@ const About = () => {
           >
             <h3 className="text-2xl font-bold mb-4 text-accent">Full-Stack Developer & AI Engineer</h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              I'm a passionate full-stack developer with strong problem-solving skills, currently pursuing a degree in Artificial Intelligence and Data Science at ADCET with a CGPA of 8.45. My journey in tech is driven by a desire to create innovative solutions that merge cutting-edge technologies with practical applications.
+              {aboutMe || `I'm a passionate full-stack developer with strong problem-solving skills, currently pursuing a degree in Artificial Intelligence and Data Science at ADCET with a CGPA of 8.45. My journey in tech is driven by a desire to create innovative solutions that merge cutting-edge technologies with practical applications.`}
             </p>
             
             <motion.div 
