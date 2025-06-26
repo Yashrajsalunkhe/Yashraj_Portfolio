@@ -6,18 +6,11 @@ export default function VisitorWidget() {
   const [visitors, setVisitors] = useState<number>(0);
 
   useEffect(() => {
-    // Increment on load
-    let count = Number(localStorage.getItem(VISITOR_KEY) || "0") + 1;
-    localStorage.setItem(VISITOR_KEY, String(count));
-    setVisitors(count);
-
-    // Decrement on unload
-    const handleUnload = () => {
-      let count = Number(localStorage.getItem(VISITOR_KEY) || "1") - 1;
-      localStorage.setItem(VISITOR_KEY, String(Math.max(count, 0)));
-    };
-    window.addEventListener("beforeunload", handleUnload);
-    return () => window.removeEventListener("beforeunload", handleUnload);
+    // Only read the value, do not increment/decrement
+    const update = () => setVisitors(Number(localStorage.getItem(VISITOR_KEY) || "0"));
+    update();
+    window.addEventListener("storage", update);
+    return () => window.removeEventListener("storage", update);
   }, []);
 
   return (

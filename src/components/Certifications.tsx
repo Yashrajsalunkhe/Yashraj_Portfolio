@@ -1,31 +1,96 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
-const Certifications = () => {
-  const certSkills = [
-    "AI & ML", "GenAI", "Cloud Functions", "API Gateway", "Vision API", 
-    "Pub/Sub", "Cloud Storage", "BigQuery", "Kubernetes"
-  ];
+interface Certificate {
+  title: string;
+  icon: string;
+  color: string;
+  description: string;
+  year?: string;
+  link?: string;
+}
 
-  const otherCerts = [
-    {
-      title: "Web Development",
-      icon: "fas fa-code",
-      color: "primary",
-      description: "Modern full-stack development with React, Node.js, and responsive design principles."
-    },
-    {
-      title: "Machine Learning",
-      icon: "fas fa-brain",
-      color: "secondary",
-      description: "Applied machine learning focusing on computer vision, NLP, and predictive analytics."
-    },
-    {
-      title: "IoT Specialization",
-      icon: "fas fa-microchip",
-      color: "accent",
-      description: "Building connected systems with microcontrollers, sensors, and cloud integration."
-    }
-  ];
+interface CertificationsProps {
+  certificates?: Certificate[];
+}
+
+const defaultCertSkills = [
+  "AI & ML", "GenAI", "Cloud Functions", "API Gateway", "Vision API", 
+  "Pub/Sub", "Cloud Storage", "BigQuery", "Kubernetes"
+];
+
+const defaultOtherCerts: Certificate[] = [
+  {
+    title: "Web Development",
+    icon: "fas fa-code",
+    color: "primary",
+    description: "Modern full-stack development with React, Node.js, and responsive design principles."
+  },
+  {
+    title: "Machine Learning",
+    icon: "fas fa-brain",
+    color: "secondary",
+    description: "Applied machine learning focusing on computer vision, NLP, and predictive analytics."
+  },
+  {
+    title: "IoT Specialization",
+    icon: "fas fa-microchip",
+    color: "accent",
+    description: "Building connected systems with microcontrollers, sensors, and cloud integration."
+  },
+  {
+    title: "NPTEL Cloud Computing",
+    icon: "fas fa-cloud",
+    color: "primary",
+    description: "Successfully completed the NPTEL Cloud Computing course, covering cloud models, virtualization, and cloud service management.",
+    year: "2025",
+    link: "https://internalapp.nptel.ac.in/noc/Ecertificate/?q=NPTEL25CS11S105630017904257937"
+  }
+];
+
+// Add your badge image URLs here
+const badgeImages = [
+  "https://cdn.qwiklabs.com/HGh8OpsJmf3kRhKbLlDBTvJWkBtWGKItyoVQ7PPGnq4%3D", // Replace with your real badge URLs
+  "https://cdn.qwiklabs.com/5Km4VEbYh%2FozGbpwTH8qut6cjJ%2F3NIynIP143rOPOUE%3D",
+  "https://cdn.qwiklabs.com/kvJk32JsyICfy4g1ioCI6Z5j6H7yJirWKQWiLTzgyFc%3D",
+  "https://cdn.qwiklabs.com/gKmq6yHaB6FrhdMvrN50%2BaQ%2Fn%2FhoN2MWxXg9OkOA4RA%3D"
+];
+
+const Certifications = ({ certificates }: CertificationsProps) => {
+  const certSkills = defaultCertSkills;
+  const otherCerts = certificates && certificates.length > 0 ? certificates : defaultOtherCerts;
+  const [currentBadge, setCurrentBadge] = useState(0);
+  const [fade, setFade] = useState(true);
+  const [autoPlay, setAutoPlay] = useState(true);
+  const badgeCount = badgeImages.length;
+
+  useEffect(() => {
+    if (!autoPlay) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [currentBadge, autoPlay]);
+
+  const handlePrev = () => {
+    setFade(false);
+    setTimeout(() => {
+      setCurrentBadge((prev) => (prev - 1 + badgeCount) % badgeCount);
+      setFade(true);
+    }, 200);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 5000);
+  };
+
+  const handleNext = () => {
+    setFade(false);
+    setTimeout(() => {
+      setCurrentBadge((prev) => (prev + 1) % badgeCount);
+      setFade(true);
+    }, 200);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 5000);
+  };
 
   return (
     <section id="certifications" className="py-20 bg-dark bg-pattern">
@@ -97,12 +162,39 @@ const Certifications = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="glass-card rounded-xl overflow-hidden h-full flex items-center justify-center p-4">
-              <img 
-                src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-                alt="Abstract visualization of AI and cloud technology concepts" 
-                className="rounded-lg w-full h-auto shadow-lg" 
-              />
+            <div className="glass-card rounded-xl overflow-hidden h-full flex items-center justify-center p-4 relative">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={badgeImages[currentBadge]}
+                  src={badgeImages[currentBadge]}
+                  alt={`Google Cloud Skills Boost Badge ${currentBadge + 1}`}
+                  className="rounded-lg w-full h-auto shadow-lg absolute"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  style={{ position: 'absolute' }}
+                />
+              </AnimatePresence>
+              {/* Centered navigation buttons below the image, styled to match theme */}
+              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-10">
+                <button
+                  className="bg-gradient-to-r from-primary to-secondary text-white rounded-full p-4 shadow-lg border-2 border-primary hover:from-secondary hover:to-primary hover:border-secondary transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent"
+                  onClick={handlePrev}
+                  aria-label="Previous badge"
+                  type="button"
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  className="bg-gradient-to-r from-primary to-secondary text-white rounded-full p-4 shadow-lg border-2 border-primary hover:from-secondary hover:to-primary hover:border-secondary transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent"
+                  onClick={handleNext}
+                  aria-label="Next badge"
+                  type="button"
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -126,6 +218,18 @@ const Certifications = () => {
               </div>
               <h4 className="text-lg font-bold mb-2">{cert.title}</h4>
               <p className="text-gray-300 text-sm">{cert.description}</p>
+              {cert.year && <span className="text-gray-400 text-xs mt-2">{cert.year}</span>}
+              {cert.link && (
+                <a
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:text-white transition-colors duration-300 flex items-center mt-2 text-sm"
+                >
+                  <span>View Certificate</span>
+                  <i className="fas fa-external-link-alt ml-2"></i>
+                </a>
+              )}
             </motion.div>
           ))}
         </div>

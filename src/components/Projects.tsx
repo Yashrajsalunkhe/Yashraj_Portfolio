@@ -15,6 +15,7 @@ const Projects = ({ onProjectClick, projects: projectsProp }: ProjectsProps) => 
   // --- FILTER & SEARCH STATE ---
   const [search, setSearch] = useState("");
   const [activeTech, setActiveTech] = useState<string | null>(null);
+  const [showMore, setShowMore] = useState(false);
 
   // Use prop if provided, else static data (do not check for length)
   const projects = Array.isArray(projectsProp)
@@ -73,7 +74,7 @@ const Projects = ({ onProjectClick, projects: projectsProp }: ProjectsProps) => 
               onChange={e => setSearch(e.target.value)}
               className="md:w-1/3 w-full bg-white dark:bg-zinc-800 border border-primary/30 text-black dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary"
             />
-            <div className="flex flex-wrap gap-2 overflow-x-auto mt-2 md:mt-0">
+            <div className="flex flex-wrap gap-2 mt-2 md:mt-0 items-center" style={{overflowX: 'hidden'}}>
               <Button
                 variant={!activeTech ? "secondary" : "outline"}
                 size="sm"
@@ -87,17 +88,53 @@ const Projects = ({ onProjectClick, projects: projectsProp }: ProjectsProps) => 
                   No technologies found
                 </Button>
               ) : (
-                allTechs.map((tech) => (
-                  <Button
-                    key={tech}
-                    variant={activeTech === tech ? "secondary" : "outline"}
-                    size="sm"
-                    className={`rounded-full px-4 py-1 font-semibold border ${activeTech === tech ? 'bg-primary text-white border-primary' : 'bg-zinc-100 dark:bg-zinc-800 text-primary border-primary/30'}`}
-                    onClick={() => setActiveTech(tech)}
-                  >
-                    {tech}
-                  </Button>
-                ))
+                <>
+                  {allTechs.slice(0, 4).map((tech) => (
+                    <Button
+                      key={tech}
+                      variant={activeTech === tech ? "secondary" : "outline"}
+                      size="sm"
+                      className={`rounded-full px-4 py-1 font-semibold border ${activeTech === tech ? 'bg-primary text-white border-primary' : 'bg-zinc-100 dark:bg-zinc-800 text-primary border-primary/30'}`}
+                      onClick={() => setActiveTech(tech)}
+                    >
+                      {tech}
+                    </Button>
+                  ))}
+                  {allTechs.length > 4 && (
+                    <div className="relative">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full px-4 py-1 font-semibold border bg-zinc-100 dark:bg-zinc-800 text-primary border-primary/30 flex items-center gap-1"
+                        onClick={() => setShowMore(prev => !prev)}
+                        type="button"
+                      >
+                        More
+                        <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      </Button>
+                      {showMore && (
+                        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40" onClick={() => setShowMore(false)}>
+                          <div className="bg-white dark:bg-zinc-900 border border-primary/20 rounded-xl shadow-2xl p-6 min-w-[220px] max-w-xs w-full relative" onClick={e => e.stopPropagation()}>
+                            <div className="flex flex-col gap-2">
+                              {allTechs.slice(4).map((tech) => (
+                                <Button
+                                  key={tech}
+                                  variant={activeTech === tech ? "secondary" : "ghost"}
+                                  size="sm"
+                                  className={`rounded-full px-4 py-1 font-semibold text-left w-full ${activeTech === tech ? 'bg-primary text-white' : 'text-primary'}`}
+                                  onClick={() => { setActiveTech(tech); setShowMore(false); }}
+                                >
+                                  {tech}
+                                </Button>
+                              ))}
+                            </div>
+                            <button className="absolute top-2 right-2 text-zinc-400 hover:text-primary text-xl" onClick={() => setShowMore(false)} aria-label="Close more filters">&times;</button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -130,9 +167,10 @@ const Projects = ({ onProjectClick, projects: projectsProp }: ProjectsProps) => 
               >
                 <div className="relative overflow-hidden">
                   <img 
-                    src={project.image} 
+                    src={project.image || "/placeholder.jpg"} 
                     alt={project.title} 
                     className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110" 
+                    onError={e => { (e.currentTarget as HTMLImageElement).src = "/placeholder.jpg"; }}
                   />
                   <div className="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
                     {project.category}

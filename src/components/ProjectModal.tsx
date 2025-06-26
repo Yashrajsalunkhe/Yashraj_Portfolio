@@ -64,9 +64,10 @@ const ProjectModal = ({ isOpen, projectId, onClose }: ProjectModalProps) => {
             <div className="modal-content">
               <div className="mb-6">
                 <img 
-                  src={project.image} 
+                  src={project.image || "/placeholder.jpg"} 
                   alt={project.title} 
                   className="w-full h-64 md:h-80 object-cover rounded-lg" 
+                  onError={e => { (e.currentTarget as HTMLImageElement).src = "/placeholder.jpg"; }}
                 />
               </div>
               

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { timeline as staticTimeline, TimelineItem } from "../data/timeline";
+import GithubCalendar from "./GithubCalendar";
+import LeetcodeCalendar from "./LeetcodeCalendar";
 
 interface AboutProps {
   timeline?: TimelineItem[];
@@ -103,6 +105,13 @@ const About = ({ timeline: timelineProp, aboutMe, imageUrl }: AboutProps) => {
           </motion.div>
         </div>
         
+        <div className="mt-20">
+          <GithubCalendar />
+        </div>
+        <div className="mt-10">
+          <LeetcodeCalendar />
+        </div>
+
         {/* Timeline */}
         <motion.div 
           className="mt-20"

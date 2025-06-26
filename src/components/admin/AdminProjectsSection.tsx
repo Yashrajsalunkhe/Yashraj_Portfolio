@@ -59,22 +59,34 @@ const AdminProjectsSection: React.FC<AdminProjectsSectionProps> = ({
                 <label className="text-xs text-zinc-500 mb-1">Image URL</label>
                 <input
                   className="border rounded px-2 py-1 w-full bg-white"
-                  value={project.imageUrl}
+                  value={project.image}
                   onChange={e => {
                     const updated = [...projectsDraft];
-                    updated[idx].imageUrl = e.target.value;
+                    updated[idx].image = e.target.value;
                     setProjectsDraft(updated);
                   }}
                 />
               </div>
               <div className="flex flex-col w-full">
-                <label className="text-xs text-zinc-500 mb-1">Project Link</label>
+                <label className="text-xs text-zinc-500 mb-1">Project Link (GitHub)</label>
                 <input
                   className="border rounded px-2 py-1 w-full bg-white"
-                  value={project.link}
+                  value={project.links?.github || ''}
                   onChange={e => {
                     const updated = [...projectsDraft];
-                    updated[idx].link = e.target.value;
+                    updated[idx].links = { ...updated[idx].links, github: e.target.value };
+                    setProjectsDraft(updated);
+                  }}
+                />
+              </div>
+              <div className="flex flex-col w-full">
+                <label className="text-xs text-zinc-500 mb-1">Project Link (Demo, optional)</label>
+                <input
+                  className="border rounded px-2 py-1 w-full bg-white"
+                  value={project.links?.demo || ''}
+                  onChange={e => {
+                    const updated = [...projectsDraft];
+                    updated[idx].links = { ...updated[idx].links, demo: e.target.value };
                     setProjectsDraft(updated);
                   }}
                 />
@@ -95,7 +107,7 @@ const AdminProjectsSection: React.FC<AdminProjectsSectionProps> = ({
           onClick={() => {
             setProjectsDraft([
               ...projectsDraft,
-              { title: '', description: '', imageUrl: '', link: '' }
+              { title: '', description: '', image: '', links: { github: '', demo: '' }, technologies: [] }
             ]);
           }}
         >+ Add Project</button>

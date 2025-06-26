@@ -12,10 +12,12 @@ import Achievements from "../components/Achievements";
 import About from "../components/About";
 import Hero from "../components/Hero";
 import Projects from "../components/Projects";
+import Certifications from "../components/Certifications";
 import { skills as staticSkills } from "../data/skills";
 import { achievements as staticAchievements } from "../data/achievements";
 import { timeline as staticTimeline } from "../data/timeline";
 import { projects as staticProjects } from "../data/projects";
+import { certificates as staticCertificates } from "../data/certificates";
 import AdminAnalyticsSection from "../components/admin/AdminAnalyticsSection";
 import AdminProjectsSection from "../components/admin/AdminProjectsSection";
 import AdminSkillsSection from "../components/admin/AdminSkillsSection";
@@ -24,6 +26,7 @@ import AdminAboutSection from "../components/admin/AdminAboutSection";
 import AdminRolesSection from "../components/admin/AdminRolesSection";
 import AdminBlogSection from "../components/admin/AdminBlogSection";
 import AdminSectionWrapper from "../components/admin/AdminSectionWrapper";
+import AdminCertificatesSection from "../components/admin/AdminCertificatesSection";
 
 const AdminDashboard: React.FC = () => {
   // --- Skills State ---
@@ -128,7 +131,20 @@ const AdminDashboard: React.FC = () => {
   const PROJECTS_KEY = "admin-projects";
   const getProjects = () => {
     const data = localStorage.getItem(PROJECTS_KEY);
-    return data ? JSON.parse(data) : staticProjects;
+    let projects = data ? JSON.parse(data) : staticProjects;
+    // MIGRATION: Convert imageUrl to image if needed
+    projects = projects.map((p: any, idx: number) => {
+      if (p.imageUrl && !p.image) {
+        p.image = p.imageUrl;
+        delete p.imageUrl;
+      }
+      // fallback to static if image is still missing
+      if (!p.image && staticProjects[idx] && staticProjects[idx].image) {
+        p.image = staticProjects[idx].image;
+      }
+      return p;
+    });
+    return projects;
   };
   const setProjects = (projects: any) => {
     localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
@@ -152,6 +168,19 @@ const AdminDashboard: React.FC = () => {
   const [blog, setBlogState] = useState(getBlog());
   const [blogDraft, setBlogDraft] = useState(blog);
 
+  // --- Certificates State ---
+  const CERTIFICATES_KEY = "admin-certificates";
+  const getCertificates = () => {
+    const data = localStorage.getItem(CERTIFICATES_KEY);
+    return data ? JSON.parse(data) : staticCertificates;
+  };
+  const setCertificates = (certificates: any) => {
+    localStorage.setItem(CERTIFICATES_KEY, JSON.stringify(certificates));
+    setCertificatesState(certificates);
+  };
+  const [certificates, setCertificatesState] = useState(getCertificates());
+  const [certificatesDraft, setCertificatesDraft] = useState(certificates);
+
   // --- Sync drafts when main state changes ---
   React.useEffect(() => { setSkillsDraft(skills); }, [skills]);
   React.useEffect(() => { setAchievementsDraft(achievements); }, [achievements]);
@@ -159,6 +188,7 @@ const AdminDashboard: React.FC = () => {
   React.useEffect(() => { setRolesDraft(roles); }, [roles]);
   React.useEffect(() => { setProjectsDraft(projects); }, [projects]);
   React.useEffect(() => { setBlogDraft(blog); }, [blog]);
+  React.useEffect(() => { setCertificatesDraft(certificates); }, [certificates]);
 
   // --- Sync localStorage on change ---
   React.useEffect(() => { setSkills(skills); }, [skills]);
@@ -167,6 +197,7 @@ const AdminDashboard: React.FC = () => {
   React.useEffect(() => { setRoles(roles); }, [roles]);
   React.useEffect(() => { setProjects(projects); }, [projects]);
   React.useEffect(() => { setBlog(blog); }, [blog]);
+  React.useEffect(() => { setCertificates(certificates); }, [certificates]);
 
   // --- Preview State ---
   const [aboutPreviewIdx, setAboutPreviewIdx] = useState<number | null>(null);
@@ -192,6 +223,7 @@ const AdminDashboard: React.FC = () => {
     { key: "projects", label: "Projects" },
     { key: "skills", label: "Skills" },
     { key: "achievements", label: "Achievements" },
+    { key: "certificates", label: "Certificates" },
     { key: "about", label: "About" },
     { key: "roles", label: "Roles" },
     { key: "blog", label: "Blog" },
@@ -222,6 +254,10 @@ const AdminDashboard: React.FC = () => {
   const setBlogStateAndSync = (draft: any) => {
     setBlogState(draft);
     setBlog(draft);
+  };
+  const setCertificatesStateAndSync = (draft: any) => {
+    setCertificatesState(draft);
+    setCertificates(draft);
   };
 
   // --- Global Preview State ---
@@ -265,6 +301,8 @@ const AdminDashboard: React.FC = () => {
             </section>
           </div>
         );
+      case "certificates":
+        return <Certifications certificates={certificatesDraft} />;
       default:
         return <div className="text-zinc-400 text-center">No preview available for this section.</div>;
     }
@@ -383,6 +421,16 @@ const AdminDashboard: React.FC = () => {
                 handleSaveWithPopup={handleSaveWithPopup}
                 setBlogState={setBlogState}
                 blog={blog}
+              />
+            )}
+            {section === "certificates" && (
+              <AdminCertificatesSection
+                certificatesDraft={certificatesDraft}
+                setCertificatesDraft={setCertificatesDraft}
+                setGlobalPreviewOpen={setGlobalPreviewOpen}
+                handleSaveWithPopup={handleSaveWithPopup}
+                setCertificatesState={setCertificatesState}
+                certificates={certificates}
               />
             )}
           </AdminSectionWrapper>
