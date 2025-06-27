@@ -310,15 +310,20 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-
     <div>
       <Navbar />
-    
-
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-gray-200 dark:from-[#18181b] dark:via-[#23232a] dark:to-[#18181b]">
       {/* Header Navbar */}
       
       <div className="flex flex-1">
+        {/* Mobile Navigation Overlay */}
+        {mobileNavOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-20 md:hidden"
+            onClick={() => setMobileNavOpen(false)}
+          />
+        )}
+        
         {/* Mobile Hamburger Button - only for mobile */}
         <button
           className="fixed top-20 left-4 z-50 flex flex-col justify-center items-center w-10 h-10 bg-primary rounded-full shadow-lg focus:outline-none md:hidden"
@@ -331,7 +336,8 @@ const AdminDashboard: React.FC = () => {
         </button>
         {/* Sidebar - always visible on desktop, toggled on mobile */}
         <aside
-          className={`w-56 bg-white dark:bg-zinc-900 border-r p-4 border-zinc-200 dark:border-zinc-800 flex flex-col fixed left-0 z-40 transition-transform duration-300 h-screen top-0 ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
+          className={`w-56 bg-white dark:bg-zinc-900 border-r p-4 border-zinc-200 dark:border-zinc-800 flex flex-col fixed left-0 z-30 transition-transform duration-300 top-16 ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
+          style={{ height: 'calc(100vh - 4rem)' }}
         >
           <div className="flex flex-col flex-1 min-h-0">
             <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin</h2>
@@ -363,7 +369,7 @@ const AdminDashboard: React.FC = () => {
           </div>
         </aside>
         {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen md:ml-56 mt-16">
+        <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen md:ml-56 pt-20 mt-16">
           <AdminSectionWrapper>
             {/* Global Preview Modal */}
             {globalPreviewOpen && (
