@@ -170,20 +170,24 @@ input, textarea {
 }
 
 @media (max-width: 768px) {
-  .timeline-container::after {
-    @apply left-5;
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    box-sizing: border-box !important;
   }
-  
-  .timeline-item {
-    @apply w-full pl-[50px] pr-0;
+  .glass-card {
+    padding: 1rem !important;
+    border-radius: 1rem !important;
+    min-width: 0 !important;
   }
-  
-  .timeline-item::after {
-    @apply left-3 top-[15px];
+  .timeline-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
-  
-  .timeline-left,
-  .timeline-right {
-    @apply left-0;
+  /* Fix for horizontal overflow on mobile */
+  body, html {
+    overflow-x: hidden !important;
   }
 }

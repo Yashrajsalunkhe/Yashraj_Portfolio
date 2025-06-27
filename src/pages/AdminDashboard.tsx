@@ -229,6 +229,7 @@ const AdminDashboard: React.FC = () => {
     { key: "blog", label: "Blog" },
   ];
   const [section, setSection] = useState(SECTIONS[0].key);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   // --- Save Handlers ---
   const setSkillsStateAndSync = (draft: any) => {
@@ -309,34 +310,60 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
+
+    <div>
+      <Navbar />
+    
+
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-gray-200 dark:from-[#18181b] dark:via-[#23232a] dark:to-[#18181b]">
       {/* Header Navbar */}
-      <Navbar />
+      
       <div className="flex flex-1">
-        {/* Sidebar */}
-        <aside className="w-56 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col py-8 px-4 gap-2 h-[calc(100vh-64px)] fixed top-16 left-0 z-40">
-          <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin</h2>
-          {SECTIONS.map((s) => (
-            <button
-              key={s.key}
-              className={`text-left px-4 py-2 rounded-lg font-medium transition-colors ${section === s.key ? "bg-primary text-white" : "hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
-              onClick={() => setSection(s.key)}
-            >
-              {s.label}
-            </button>
-          ))}
-          <button
-            className="mt-auto bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-semibold shadow hover:opacity-90 transition"
-            onClick={() => {
-              localStorage.removeItem("admin-auth");
-              window.location.href = "/admin-login";
-            }}
-          >
-            Logout
-          </button>
+        {/* Mobile Hamburger Button - only for mobile */}
+        <button
+          className="fixed top-20 left-4 z-50 flex flex-col justify-center items-center w-10 h-10 bg-primary rounded-full shadow-lg focus:outline-none md:hidden"
+          onClick={() => setMobileNavOpen((v) => !v)}
+          aria-label="Open admin navigation"
+        >
+          <span className="block w-6 h-0.5 bg-white mb-1 rounded transition-all" />
+          <span className="block w-6 h-0.5 bg-white mb-1 rounded transition-all" />
+          <span className="block w-6 h-0.5 bg-white rounded transition-all" />
+        </button>
+        {/* Sidebar - always visible on desktop, toggled on mobile */}
+        <aside
+          className={`w-56 bg-white dark:bg-zinc-900 border-r p-4 border-zinc-200 dark:border-zinc-800 flex flex-col fixed left-0 z-40 transition-transform duration-300 h-screen top-0 ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
+        >
+          <div className="flex flex-col flex-1 min-h-0">
+            <h2 className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Admin</h2>
+            <nav className="flex flex-col gap-2 flex-1 min-h-0 overflow-y-auto">
+              {SECTIONS.map((s) => (
+                <button
+                  key={s.key}
+                  className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors ${section === s.key ? "bg-primary text-white" : "hover:bg-zinc-100 dark:hover:bg-zinc-800"}`}
+                  onClick={() => {
+                    setSection(s.key);
+                    setMobileNavOpen(false);
+                  }}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </nav>
+            <div className="p-4">
+              <button
+                className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-semibold shadow hover:opacity-90 transition w-full"
+                onClick={() => {
+                  localStorage.removeItem("admin-auth");
+                  window.location.href = "/admin-login";
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
         </aside>
         {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen ml-56 mt-16">
+        <main className="flex-1 flex items-center justify-center p-2 md:p-6 min-h-screen md:ml-56 mt-16">
           <AdminSectionWrapper>
             {/* Global Preview Modal */}
             {globalPreviewOpen && (
@@ -437,6 +464,7 @@ const AdminDashboard: React.FC = () => {
         </main>
       </div>
     </div>
+  </div>  
   );
 };
 
